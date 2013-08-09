@@ -72,7 +72,7 @@ Results
 
 ## Demo ##
 
-"View the demo":http://htmlpreview.github.io/?https://github.com/seamusleahy/jquery.selection.js/blob/master/demo.html
+[View the demo](http://htmlpreview.github.io/?https://github.com/seamusleahy/jquery.selection.js/blob/master/demo.html)
 
 ## Credits ##
 Thanks to 
