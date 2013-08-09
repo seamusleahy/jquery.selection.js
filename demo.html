@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>jquery.selection.js - DEMO</title>
+		<script src="http://code.jquery.com/jquery-2.0.3.js"></script>
+		<script src="./jquery.selection.js"></script>
+
+		<style>
+			.input-magic {
+				border: 1px inset;
+				width: 200px;
+				position: relative;
+			}
+
+			.input-magic input {
+				border: 0 none;
+				background-color: transparent;
+				width: 196px;
+				position: relative;
+				z-index: 2;
+				padding: 2px;
+				margin: 0;
+				display: block;
+			}
+
+			.input-magic .select {
+				position: absolute;
+				display: block;
+				z-index: 1;
+				background-color: yellow;
+				top: 0;
+				bottom: 0;
+				margin-left: -2px;
+				padding: 2px;
+				display: none;
+			}
+		</style>
+	</head>
+	<body>
+		<div class="input-magic"><input type="text" id="demo" /><span class="select"></span></div>
+		<p><input type="number" id="min" value="0" /> to <input type="number" id="max" value="1" /> <button id="select-range">Select Range</button></p>
+		<p><input type="number" id="pos" value="0" /> <button id="insert-cursor">Insert Cursor</button></p>
+		<pre id="demo-status"></pre>
+
+	<script>
+
+		$('#demo').on( 'input change keyup keypress click', function() {
+			var selection = $(this).selection();
+
+			$('#demo-status').html( JSON.stringify( selection, undefined, 2 ) );
+			
+			var val = $(this).val();
+			var m = val.substring( 0, selection.start ).match ( /^(.*\s)?(\S*)$/ );
+			var pre = !m || !m[1] ? '' : m[1];
+			m = val.substring( selection.end ).match ( /^(\S*)(\s.*)?$/ );  
+			var post = !m || !m[2] ? '' : m[2];
+			
+
+			var position = $(this).getSubValPosition( pre.length, val.length - post.length );
+			var select = $(this).parent().find('.select');
+			select.css({
+				display: 'block',
+				left: position.left + 'px',
+				width: position.width + 'px'
+			});
+		});
+
+
+
+		$('#select-range').on( 'click', function() {
+			$('#demo').selection( $('#min').val(), $('#max').val() );
+		})
+
+		$('#insert-cursor').on( 'click', function() {
+			$('#demo').selection( $('#pos').val() );
+		})
+
+	</script>
+	</body>
+</head>
